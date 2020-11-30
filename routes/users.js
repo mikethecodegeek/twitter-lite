@@ -4,8 +4,8 @@ const bcrypt = require('bcrypt');
 
 const { check } = require("express-validator");
 const { asyncHandler, handleValidationErrors } = require("../utils");
-const {User} = require('../db/models')
-const {getUserToken} = require('../auth')
+const { User } = require('../db/models')
+const { getUserToken } = require('../auth')
 const validateUsername =
   check("username")
     .exists({ checkFalsy: true })
@@ -39,7 +39,7 @@ router.post(
       const { username, email, password } = req.body;
       const hashedPassword = await bcrypt.hash(password, 10);
       const user = await User.create({ username, email, hashedPassword });
-  
+
       const token = getUserToken(user);
       res.status(201).json({
         user: { id: user.id },
